@@ -55,7 +55,7 @@ $installdir = (Get-Item .).FullName + '\miniconda'
 if (Test-Path $installdir) {
     echo 'Using existing installation'
 } else {
-    start -Wait -NoNewWindow -FilePath .\miniconda.exe -ArgumentList "/InstallationType=JustMe","/AddToPath=0","/RegisterPython=0","/S","/D=$installdir"
+    .\miniconda.exe /InstallationType=JustMe /AddToPath=0 /RegisterPython=0 /S /D=$installdir
 }
 
 Safe-Download -Url 'https://github.com/dunnousername/first-order-model/releases/download/v1.0.0/fomm.zip' -Output fomm.zip -ExpectedHash 'F50E5E39967ABAEB695B67F727E59892'
@@ -69,7 +69,13 @@ if (Test-Path '.\fomm\') {
 Safe-Download -Url 'https://github.com/dunnousername/yanderifier/releases/download/model/checkpoint.tar' -Output .\yanderify\checkpoint.tar -ExpectedHash 'B667124DD6E324F42C3DF0B068B8C593'
 
 echo 'starting post-install script'
+<<<<<<< HEAD
 & .\install\windows\postinstall.bat "$installdir\condabin\conda.bat"
 cp .\miniconda\pkgs\ffmpeg-*\Library\bin\* .\miniconda\Library\bin\
 pause
 exit
+=======
+cmd /k ('"' + $installdir + '\Scripts\activate.bat' + '"') "&" powershell -ExecutionPolicy bypass -File install\windows\postinstall.ps1
+cmd /k ('"' + $installdir + '\Scripts\activate.bat' + '"') "&" powershell -ExecutionPolicy bypass -File install\windows\postinstall2.ps1
+exit /b
+>>>>>>> parent of 19d2850... Fix install process
